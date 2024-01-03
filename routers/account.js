@@ -2,6 +2,7 @@ const express = require('express');
 var router = express.Router();
 const AccountModel = require('../Models/account')
 
+
 // Lay nhieu du lieu tu data
 router.get('/',(req,res,next)=>{
     AccountModel.find({})

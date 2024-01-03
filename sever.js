@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 var bodyParser = require('body-parser') 
 const AccountModel = require('./Models/account')
-
+const DanhMucModel = require('./Models/danhmuc')
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
@@ -43,10 +44,15 @@ app.post('/login',(req,res,next)=>{
         password: password
     })
     .then(data=>{
-        if(data){
-            res.json('Dang Nhap Thanh Cong')
-        }else{
-            res.status(400).json('Chuc Ban May Man Lan Sau')
+        if(!data){
+            res.json('Tai khoan hoac mat khau khong chinh xac')
+        }
+        const checkpassword = bcrypt.compareSync(Password, account.password);
+        if (!checkpassword) {
+            return res.status(501).json('Mật khẩu không chính xác');
+        }
+        else{
+            res.status(400).json('Dang nhap thanh cong')
         }
     })
     .catch(err=>{
@@ -57,8 +63,10 @@ app.post('/login',(req,res,next)=>{
 var accountRouter = require('./routers/account')
 app.use('/api/account/',accountRouter)
 
-app.get('/',(req, res, next)=>{
-    res.json("HOME")
+app.use('/public',express.static(path.join(__dirname,'/public')))
+app.get('/',function(req, res){
+    var danFile = path.join(__dirname,'home.html')
+    res.sendFile(danFile)
 })
 
 app.listen(4000, () => {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:4000/public/home.css">
+    <title>Document</title>
+    <style>
+         .container-table{
+        padding: 15px 20px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        
+      }
+      
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      tr:hover {background-color: coral;}
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/create">Create user</a>
+      </div>
+      <input type="text" id="searchInput" placeholder="Vai Tro">
+      <input type="text" id="searchInput" placeholder="Ho Ten">
+      <input type="text" id="searchInput" placeholder="Tai Khoan">
+      <button type="submit">Bo Loc</button>
+      <button type="submit">Tim kiem</button>
+      <div class="container-table">
+        <h2>Danh Sach Tai Khoan</h2>
+      <table>
+        <tr>
+          <th class="di_none">ID</th>
+          <th>Ho va ten</th>
+          <th>Tai Khoan</th>
+        </tr>
+          <% listUsers.forEach(function(user) { %>
+            <tr>
+              <td class="di_none"><%= user.id %></td>
+              <td><%= user.username %></td>
+              <td><%= user.password %></td>
+              <td>
+                  <button><a href="/<%= user.id %>" style="text-decoration: none;">Edit</a></button>
+                  <button ><a href="<%= user.id %>" style="text-decoration: none;">Delete</a></button>
+              </td>
+            </tr>
+         <% }); %> 
+      </table>
+      </div>
+      <script>
+        const searchInput = document.getElementById("searchInput");
+        const rows = document.querySelectorAll("table tbody tr");
+    
+        searchInput.addEventListener("input", function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                const nameColumn = row.querySelector("td:nth-child(2)");
+                if (nameColumn.textContent.toLowerCase().includes(searchTerm)) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
