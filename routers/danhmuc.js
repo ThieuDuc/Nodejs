@@ -26,7 +26,7 @@ router.get('/:id',(req,res,next)=>{
 })
 
 // Them moi du lieu
-router.post('/',(req,res,next)=>{
+router.post('/danhmuc',(req,res,next)=>{
     var ten_danh_muc = req.body.ten_danh_muc
     var mo_ta = req.body.mo_ta
     DanhMucModel.create({
